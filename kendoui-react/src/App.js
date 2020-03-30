@@ -1,26 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
+import { DropDownList } from '@progress/kendo-react-dropdowns';
+import { NumericTextBox } from '@progress/kendo-react-inputs';
+import { Button } from '@progress/kendo-react-buttons';
+import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
+import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
+import nutrition from './nutrition.json';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React {
+
+
+    state = {
+      data: nutrition,
+      habitsOptions: [
+                        'Drink One Cup of Water',
+                        '1 Hour od coding',
+                        '10 Pushups',
+                        'Eat Your Fruits & Veggies',
+                        '10 Minutes of Meditation'
+                      ]
+        };
+
+render(){
+    return (
+      <div className="App">
+          <h1>Healthy Things</h1>
+          <div className="healthy-habits">
+          </div>
+          <div className="add-habits">
+              <DropDownList data={this.state.habitsOptions}/>
+              <NumericTextBox/>
+              <Button>Add Habit</Button>
+          </div>
+          <div className='nutrition-group'>
+              <Grid data={this.state.data}>
+                <Column field='Description' title='Food'/>
+                <Column field='Measure' title='Amount'/>
+                <Column field='Protein' title='Proteins'/>
+                <Column field='Salt' title='Salts'/>
+                <Column field='Sugar' title='Sugars'/>
+              </Grid>
+          </div>
+      </div>
+    );
+  }
 }
 
 export default App;
