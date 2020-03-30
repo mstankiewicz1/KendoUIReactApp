@@ -36,9 +36,9 @@ render(){
               <Grid data={this.state.data}>
                 <Column field='Description' title='Food'/>
                 <Column field='Measure' title='Amount'/>
-                <Column field='Protein' title='Proteins'/>
-                <Column field='Salt' title='Salts'/>
-                <Column field='Sugar' title='Sugars'/>
+                <Column field='Protein(g)Per Measure' title='Protein'/>
+                <Column field='Carbohydrate, by difference(g)Per Measure' title='Carbs'/>
+                <Column field='Sugars, total(g)Per Measure' title='Sugars'/>
               </Grid>
           </div>
       </div>
