@@ -11,6 +11,10 @@ class App extends React.Component {
 
     state = {
       data: nutrition,
+      habitId: 0,
+      habitName: '',
+      habitIteration: 0,
+      habits: [],
       habitsOptions: [
                         'Drink One Cup of Water',
                         '1 Hour od coding',
@@ -21,6 +25,30 @@ class App extends React.Component {
       };
 
 
+      handleNameChange = (e) => {
+          this.setState({
+                habitName: e.target.value,
+          })
+      };
+
+      handleIterationChange = (e) => {
+        this.setState({
+          habitIteration: e.target.value,
+          })
+      };
+
+      handleAddHabit = (e) => {
+          this.setState({
+            habits: this.state.habits.concat([{
+                  key: this.state.habitId,
+                  name: this.state.habitName,
+                  iterations: this.state.habitIteration
+            }]),
+            habitId: this.state.habitId + 1
+          });
+      }
+
+
 render(){
     return (
       <div className="App">
@@ -28,9 +56,19 @@ render(){
           <div className="healthy-habits">
           </div>
           <div className="add-habits">
-              <DropDownList data={this.state.habitsOptions}/>
-              <NumericTextBox/>
-              <Button>Add Habit</Button>
+              <DropDownList 
+                  data={this.state.habitsOptions}
+                  value={this.state.habitName}
+                  onChange={this.state.handleNameChange}
+              />
+              <NumericTextBox
+                format='0'
+                min={0}
+                max={22}
+                value={this.state.habitIteration}
+                onChange={this.state.handleIterationChange}
+              />
+              <Button primary={true} onClick={this.handleAddHabit}>Add Habit</Button>
           </div>
           <div className='nutrition-group'>
               <Grid data={this.state.data}>
