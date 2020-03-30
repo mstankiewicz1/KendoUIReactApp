@@ -7,8 +7,7 @@ import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
 import nutrition from './nutrition.json';
 
-class App extends React {
-
+class App extends React.Component {
 
     state = {
       data: nutrition,
@@ -19,7 +18,8 @@ class App extends React {
                         'Eat Your Fruits & Veggies',
                         '10 Minutes of Meditation'
                       ]
-        };
+      };
+
 
 render(){
     return (
