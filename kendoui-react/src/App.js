@@ -3,14 +3,30 @@ import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { NumericTextBox } from '@progress/kendo-react-inputs';
 import { Button } from '@progress/kendo-react-buttons';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
+import { filterBy } from '@progress/kendo-data-query';
 import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
+
+
 import nutrition from './nutrition.json';
 
 class App extends React.Component {
 
-    state = {
-      data: nutrition,
+      constructor(props){
+        super(props)
+
+      const initialFilter = {
+          logic: 'and',
+          filters: [{
+                      field: 'Description',
+                      operator: 'contains',
+                      value: 'Apple'
+          }]
+    };
+
+    this.state = {
+      data: this.getNutrition(initialFilter),
+      filter: initialFilter,
       habitId: 0,
       habitName: '',
       habitIteration: 0,
@@ -23,6 +39,7 @@ class App extends React.Component {
                         '10 Minutes of Meditation'
                       ]
       };
+    }
 
 
       handleNameChange = (event) => {
@@ -45,6 +62,15 @@ class App extends React.Component {
                 iterations: this.state.habitIteration
             }]),
             habitId: this.state.habitId + 1
+          });
+      }
+
+      getNutrition = (filter) => filterBy(nutrition, filter);
+
+      handleFilterChange = (event) => {
+          this.setState({
+            data: this.getNutrition(event.filter),
+            filter: event.filter
           });
       }
 
@@ -83,7 +109,13 @@ render(){
               <Button primary={true} onClick={this.handleAddHabit}>Add Habit</Button>
           </div>
           <div className='nutrition-group'>
-              <Grid data={this.state.data}>
+              <Grid
+                data={this.state.data}
+                style={{maxHeight: '500px'}}
+                filterable={true}
+                filter={this.state.filter}
+                filterChange={this.handleFilterChange}
+              >
                 <Column field='Description' title='Food'/>
                 <Column field='Measure' title='Amount'/>
                 <Column field='Protein(g)Per Measure' title='Protein'/>
