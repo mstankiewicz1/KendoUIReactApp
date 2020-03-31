@@ -25,24 +25,24 @@ class App extends React.Component {
       };
 
 
-      handleNameChange = (e) => {
+      handleNameChange = (event) => {
           this.setState({
-                habitName: e.target.value,
+                habitName: event.target.value
           })
-      };
+      }
 
-      handleIterationChange = (e) => {
+      handleIterationChange = (event) => {
         this.setState({
-          habitIteration: e.target.value,
+          habitIteration: event.target.value
           })
-      };
+      }
 
-      handleAddHabit = (e) => {
+      handleAddHabit = (event) => {
           this.setState({
             habits: this.state.habits.concat([{
-                  key: this.state.habitId,
-                  name: this.state.habitName,
-                  iterations: this.state.habitIteration
+                key: this.state.habitId,
+                name: this.state.habitName,
+                iterations: this.state.habitIteration
             }]),
             habitId: this.state.habitId + 1
           });
@@ -52,10 +52,22 @@ class App extends React.Component {
 render(){
     return (
       <div className="App">
-          <h1>Healthy Things</h1>
-          <div className="healthy-habits">
-          </div>
-          <div className="add-habits">
+            <h1> Healthy Things </h1>
+            <div className='healthy-habits'>
+                <ul>
+                    {this.state.habits.map((habit) => [
+                          <li key={habit.habitId}>
+                            <h3>{habit.name}</h3>
+                            <div className="iterations-area">
+                                {[...Array(habit.iterations)].map((iteration, index) => {
+                                    return <input key={index} type='radio'/> 
+                                })}
+                            </div>
+                          </li>
+                    ])}
+                </ul>      
+            </div>
+            <div className='add-habits'>
               <DropDownList 
                   data={this.state.habitsOptions}
                   value={this.state.habitName}
